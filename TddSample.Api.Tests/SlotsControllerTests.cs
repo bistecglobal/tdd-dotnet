@@ -89,5 +89,31 @@ namespace TddSample.Api.Tests
             // Assert
             slots.First().From.Hours.Should().BeGreaterThan(now.Hour);
         }
+
+        [Trait("Type", "Slots Controller Tests")]
+        [Theory(DisplayName = "Should return correct number of slots after current time")]
+        [InlineData(3, 12)]
+        [InlineData(2, 13)]
+        [InlineData(4, 0)]
+        public async Task ShouldReturnNumberofSlotsAfterCurrentTime(int count, int currentHour)
+        {
+            // Arrange
+            var controller = new SlotsController(Mediator);
+            RepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<Slot>
+            {
+                new Slot { From = new TimeSpan(1, 0, 0) },
+                new Slot { From = new TimeSpan(13, 0, 0) },
+                new Slot { From = new TimeSpan(14, 0, 0) },
+                new Slot { From = new TimeSpan(15, 0, 0) },
+            });
+            var now = new DateTime(2020, 01, 13, currentHour, 0, 0);
+            DateTimeMock.Setup(x => x.Current()).Returns(now);
+            // Act
+            var result = await controller.Get();
+            var objectResult = Assert.IsType<OkObjectResult>(result);
+            var slots = Assert.IsAssignableFrom<IEnumerable<Slot>>(objectResult.Value);
+            // Assert
+            slots.Count().Should().Be(count);
+        }
     }
 }
