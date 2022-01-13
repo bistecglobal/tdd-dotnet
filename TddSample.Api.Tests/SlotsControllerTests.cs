@@ -35,7 +35,7 @@ namespace TddSample.Api.Tests
         }
 
         [Trait("Type","Slots Controller Tests")]
-        [Fact(DisplayName = "Should return slots")]
+        [Fact(DisplayName = "Should call Repository")]
         public async Task ShouldReturnSlotsAsync()
         {
             // Arrange
@@ -43,11 +43,11 @@ namespace TddSample.Api.Tests
             RepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<Slot> { new Slot
             {
                 From = new TimeSpan(12, 0, 0)
-            } });
+            } }).Verifiable();
             // Act
             var slots = await controller.Get();
             // Assert
-            slots.Should().NotBeNull();
+            RepositoryMock.Verify();
         }
 
         [Trait("Type", "Slots Controller Tests")]
