@@ -5,11 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using TddSample.Api.Application.Query;
 using TddSample.Api.Application.Repository;
+using TddSample.Api.Application.Services;
 using TddSample.Api.Controllers;
 using TddSample.Domain;
 using Xunit;
@@ -21,13 +21,16 @@ namespace TddSample.Api.Tests
         public IServiceCollection _services;
         public IMediator? Mediator { get; private set; }
         public Mock<ISlotRepository> RepositoryMock { get; private set; }
+        public Mock<IDateTimeService> DateTimeMock { get; private set; }
 
         public SlotsControllerTests()
         {
+            DateTimeMock = new Mock<IDateTimeService>();
             RepositoryMock = new Mock<ISlotRepository>();
             _services = new ServiceCollection();
             _services.AddMediatR(typeof(GetSlotsQuery));
-            _services.AddSingleton<ISlotRepository>(RepositoryMock.Object);
+            _services.AddSingleton(RepositoryMock.Object);
+            _services.AddSingleton(DateTimeMock.Object);
             Mediator = _services.BuildServiceProvider().GetService<IMediator>();
         }
 
@@ -37,6 +40,10 @@ namespace TddSample.Api.Tests
         {
             // Arrange
             var controller = new SlotsController(Mediator);
+            RepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<Slot> { new Slot
+            {
+                From = new TimeSpan(12, 0, 0)
+            } });
             // Act
             var slots = await controller.Get();
             // Assert
@@ -68,16 +75,19 @@ namespace TddSample.Api.Tests
         {
             // Arrange
             var controller = new SlotsController(Mediator);
-            RepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<Slot> { new Slot
-            {
-                From = new TimeSpan(12, 0, 0)
-            } });
+            RepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<Slot> 
+            { 
+                new Slot { From = new TimeSpan(1, 0, 0) }, 
+                new Slot { From = new TimeSpan(13, 0, 0) },
+            });
+            var now = new DateTime(2020, 01, 13, 12, 0, 0);
+            DateTimeMock.Setup(x => x.Current()).Returns(now);
             // Act
             var result = await controller.Get();
             var objectResult = Assert.IsType<OkObjectResult>(result);
             var slots = Assert.IsAssignableFrom<IEnumerable<Slot>>(objectResult.Value);
             // Assert
-            slots.First().From.Hours.Should().BeGreaterThan(DateTime.Now.Hour);
+            slots.First().From.Hours.Should().BeGreaterThan(now.Hour);
         }
     }
 }
