@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TddSample.Api.Application.Query;
 using TddSample.Domain;
 
 namespace TddSample.Api.Controllers
@@ -8,17 +10,17 @@ namespace TddSample.Api.Controllers
     [ApiController]
     public class SlotsController : ControllerBase
     {
+        private IMediator _mediator;
+
+        public SlotsController(IMediator mediator)
+        {
+            _mediator = mediator;
+        }
+
         [HttpGet()]
         public async Task<IActionResult> Get()
         {
-            var results = await Task.FromResult(new List<Slot>
-            {
-                new Slot
-                {
-                    From = new TimeSpan(12, 0, 0),
-                    To = TimeSpan.Zero,
-                }
-            });
+            var results = await _mediator.Send(new GetSlotsQuery { });
             return Ok(results);
         }
     }
