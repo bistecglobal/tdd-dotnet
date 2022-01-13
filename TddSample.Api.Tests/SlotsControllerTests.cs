@@ -7,7 +7,8 @@ namespace TddSample.Api.Tests
 {
     public class SlotsControllerTests
     {
-        [Fact]
+        [Trait("Type","Slots Controller Tests")]
+        [Fact(DisplayName = "Should return valid slots")]
         public async Task ShouldReturnSlotsAsync()
         {
             // Arrange

@@ -7,6 +7,7 @@ namespace TddSample.Api.Controllers
     [ApiController]
     public class SlotsController : ControllerBase
     {
+        [HttpGet()]
         public async Task<IActionResult> Get()
         {
             var results = await Task.FromResult(new[] { 1, 2, });
