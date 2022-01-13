@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TddSample.Domain;
 
 namespace TddSample.Api.Controllers
 {
@@ -10,7 +11,14 @@ namespace TddSample.Api.Controllers
         [HttpGet()]
         public async Task<IActionResult> Get()
         {
-            var results = await Task.FromResult(new[] { 1, 2, });
+            var results = await Task.FromResult(new List<Slot>
+            {
+                new Slot
+                {
+                    From = new TimeSpan(12, 0, 0),
+                    To = TimeSpan.Zero,
+                }
+            });
             return Ok(results);
         }
     }

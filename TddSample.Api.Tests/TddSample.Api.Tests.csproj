@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TddSample.Api\TddSample.Api.csproj" />
+    <ProjectReference Include="..\TddSample.Domain\TddSample.Domain.csproj" />
   </ItemGroup>
 
 </Project>
