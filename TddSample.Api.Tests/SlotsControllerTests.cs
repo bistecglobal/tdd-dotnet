@@ -5,10 +5,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using TddSample.Api.Application.Query;
+using TddSample.Api.Application.Repository;
 using TddSample.Api.Controllers;
 using TddSample.Domain;
 using Xunit;
@@ -19,11 +20,14 @@ namespace TddSample.Api.Tests
     {
         public IServiceCollection _services;
         public IMediator? Mediator { get; private set; }
+        public Mock<ISlotRepository> RepositoryMock { get; private set; }
 
         public SlotsControllerTests()
         {
+            RepositoryMock = new Mock<ISlotRepository>();
             _services = new ServiceCollection();
             _services.AddMediatR(typeof(GetSlotsQuery));
+            _services.AddSingleton<ISlotRepository>(RepositoryMock.Object);
             Mediator = _services.BuildServiceProvider().GetService<IMediator>();
         }
 
@@ -45,6 +49,11 @@ namespace TddSample.Api.Tests
         {
             // Arrange
             var controller = new SlotsController(Mediator);
+            RepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<Slot> { new Slot
+            {
+                From = new TimeSpan(12, 0, 0)
+            } });
+
             // Act
             var result = await controller.Get();
             var objectResult = Assert.IsType<OkObjectResult>(result);
@@ -59,6 +68,10 @@ namespace TddSample.Api.Tests
         {
             // Arrange
             var controller = new SlotsController(Mediator);
+            RepositoryMock.Setup(x => x.GetAllAsync()).ReturnsAsync(new List<Slot> { new Slot
+            {
+                From = new TimeSpan(12, 0, 0)
+            } });
             // Act
             var result = await controller.Get();
             var objectResult = Assert.IsType<OkObjectResult>(result);
