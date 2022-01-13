@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TddSample.Api", "TddSample.Api\TddSample.Api.csproj", "{2B1DD162-2787-4F30-BB40-A1BDD52EC5ED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TddSample.Api.Tests", "TddSample.Api.Tests\TddSample.Api.Tests.csproj", "{801F4527-E7EE-416C-A098-F72FA9129207}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TddSample.Domain", "TddSample.Domain\TddSample.Domain.csproj", "{2A8940FD-46B3-4C73-8C41-01BD31A38712}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TddSample.Api.Application", "TddSample.Api.Application\TddSample.Api.Application.csproj", "{24A2A558-62CA-4E89-B36A-85A62A18751C}"
@@ -21,10 +19,6 @@ Global
 		{2B1DD162-2787-4F30-BB40-A1BDD52EC5ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B1DD162-2787-4F30-BB40-A1BDD52EC5ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B1DD162-2787-4F30-BB40-A1BDD52EC5ED}.Release|Any CPU.Build.0 = Release|Any CPU
-		{801F4527-E7EE-416C-A098-F72FA9129207}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{801F4527-E7EE-416C-A098-F72FA9129207}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{801F4527-E7EE-416C-A098-F72FA9129207}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{801F4527-E7EE-416C-A098-F72FA9129207}.Release|Any CPU.Build.0 = Release|Any CPU
 		{2A8940FD-46B3-4C73-8C41-01BD31A38712}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{2A8940FD-46B3-4C73-8C41-01BD31A38712}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2A8940FD-46B3-4C73-8C41-01BD31A38712}.Release|Any CPU.ActiveCfg = Release|Any CPU
