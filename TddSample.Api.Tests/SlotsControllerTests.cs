@@ -114,6 +114,7 @@ namespace TddSample.Api.Tests
             var slots = Assert.IsAssignableFrom<IEnumerable<Slot>>(objectResult.Value);
             // Assert
             slots.Count().Should().Be(count);
+
         }
     }
 }
